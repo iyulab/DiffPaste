@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<CommandTable xmlns="http://schemas.microsoft.com/VisualStudio/2005-10-18/CommandTable" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+	<Extern href="stdidcmd.h"/>
+	<Extern href="vsshlids.h"/>
+	<Commands package="guidDiffPastePackage">
+		<Groups>
+			<Group guid="guidDiffPastePackageCmdSet" id="EditorContextMenuGroup" priority="0x0180">
+				<Parent guid="guidSHLMainMenu" id="IDM_VS_CTXT_CODEWIN"/>
+			</Group>
+		</Groups>
+		<Buttons>
+			<Button guid="guidDiffPastePackageCmdSet" id="DiffPasteCommandId" priority="0x0100" type="Button">
+				<Parent guid="guidDiffPastePackageCmdSet" id="EditorContextMenuGroup" />
+				<Icon guid="guidImages" id="bmpPic1" />
+				<CommandFlag>DynamicVisibility</CommandFlag>
+				<Strings>
+					<ButtonText>Diff Paste</ButtonText>
+					<LocCanonicalName>.Edit.DiffPaste</LocCanonicalName>
+				</Strings>
+			</Button>
+		</Buttons>
+		<Bitmaps>
+			<Bitmap guid="guidImages" href="Resources\DiffPasteCommand.png" usedList="bmpPic1"/>
+		</Bitmaps>
+	</Commands>
+	<KeyBindings>
+		<KeyBinding guid="guidDiffPastePackageCmdSet" id="DiffPasteCommandId"
+					editor="GUID_TextEditorFactory"
+					key1="M" mod1="Control"
+					key2="V" mod2="None"/>
+	</KeyBindings>
+	<Symbols>
+		<GuidSymbol name="guidDiffPastePackage" value="{cf8908d6-574e-45d0-bdfa-52d2983209ed}" />
+		<GuidSymbol name="guidDiffPastePackageCmdSet" value="{a25c8e6c-1426-4fde-b566-855785737a15}">
+			<IDSymbol name="EditorContextMenuGroup" value="0x1020" />
+			<IDSymbol name="DiffPasteCommandId" value="0x0100" />
+		</GuidSymbol>
+		<GuidSymbol name="guidImages" value="{9c633b14-6a91-4a39-8d9c-5ef31568522a}" >
+			<IDSymbol name="bmpPic1" value="1" />
+		</GuidSymbol>
+	</Symbols>
+</CommandTable>
