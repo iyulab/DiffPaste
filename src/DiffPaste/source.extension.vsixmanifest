@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PackageManifest Version="2.0.0" xmlns="http://schemas.microsoft.com/developer/vsx-schema/2011" xmlns:d="http://schemas.microsoft.com/developer/vsx-schema-design/2011">
     <Metadata>
-        <Identity Id="DiffPaste.8c8a13c5-d6f6-4240-8ad5-e4cb7afaf503" Version="1.0" Language="en-US" Publisher="iyulab" />
-        <DisplayName>Diff Paste</DisplayName>
-        <Description xml:space="preserve">Empty VSIX Project.</Description>
+        <Identity Id="DiffPaste.8c8a13c5-d6f6-4240-8ad5-e4cb7afaf503" Version="2.0" Language="en-US" Publisher="Microsoft" />
+        <DisplayName>Diff Paste v2.0</DisplayName>
+        <Description xml:space="preserve">Modern Visual Studio extension for applying unified diff data directly to active documents. Features TextDiff.Sharp integration with keyboard shortcut support (Ctrl+M, V).</Description>
         <Icon>DiffPasteCommand.ico</Icon>
     </Metadata>
     <Installation>

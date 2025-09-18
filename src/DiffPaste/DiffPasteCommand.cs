@@ -53,8 +53,7 @@ namespace DiffPaste
 
             if (vsTextView == null) return null;
 
-            var userData = vsTextView as IVsUserData;
-            if (userData == null) return null;
+            if (!(vsTextView is IVsUserData userData)) return null;
 
             Guid guidWpfViewHost = Microsoft.VisualStudio.Editor.DefGuidList.guidIWpfTextViewHost;
             userData.GetData(ref guidWpfViewHost, out object host);
@@ -77,22 +76,22 @@ namespace DiffPaste
                 var textView = await GetActiveTextViewAsync();
                 if (textView == null)
                 {
-                    await UpdateStatusBarAsync("No active text view found.");
+                    await UpdateStatusBarAsync("활성 텍스트 에디터를 찾을 수 없습니다.");
                     return;
                 }
 
                 var clipboardText = Clipboard.GetText();
                 if (string.IsNullOrEmpty(clipboardText))
                 {
-                    await UpdateStatusBarAsync("No valid text in clipboard.");
+                    await UpdateStatusBarAsync("클립보드가 비어있습니다.");
                     return;
                 }
 
                 var snapshot = textView.TextSnapshot;
                 var documentText = snapshot.GetText();
 
-                var processor = new DiffProcessor();
-                var result = processor.Process(documentText, clipboardText);
+                var differ = new TextDiffer();
+                var result = differ.Process(documentText, clipboardText);
 
                 using (var edit = textView.TextBuffer.CreateEdit())
                 {
@@ -103,27 +102,26 @@ namespace DiffPaste
 
                 // Construct status message based on changes
                 var statusMessages = new List<string>();
-                if (result.Changes.DeletedLines > 0) statusMessages.Add($"{result.Changes.DeletedLines} deleted");
-                if (result.Changes.ChangedLines > 0) statusMessages.Add($"{result.Changes.ChangedLines} changed");
-                if (result.Changes.AddedLines > 0) statusMessages.Add($"{result.Changes.AddedLines} added");
+                if (result.Changes.DeletedLines > 0) statusMessages.Add($"{result.Changes.DeletedLines}줄 삭제");
+                if (result.Changes.ChangedLines > 0) statusMessages.Add($"{result.Changes.ChangedLines}줄 변경");
+                if (result.Changes.AddedLines > 0) statusMessages.Add($"{result.Changes.AddedLines}줄 추가");
 
                 string statusMessage = statusMessages.Count > 0
-                    ? $"Diff applied: {string.Join(", ", statusMessages)}"
-                    : "No changes applied.";
+                    ? $"Diff 적용 완료: {string.Join(", ", statusMessages)}"
+                    : "변경사항이 없습니다.";
 
                 await UpdateStatusBarAsync(statusMessage);
             }
             catch (Exception ex)
             {
-                await UpdateStatusBarAsync($"Error: {ex.Message}");
+                await UpdateStatusBarAsync($"오류: {ex.Message}");
             }
         }
 
         private async Task UpdateStatusBarAsync(string message)
         {
             await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync();
-            var statusBar = await ServiceProvider.GetServiceAsync(typeof(SVsStatusbar)) as IVsStatusbar;
-            if (statusBar != null)
+            if (await ServiceProvider.GetServiceAsync(typeof(SVsStatusbar)) is IVsStatusbar statusBar)
             {
                 statusBar.SetText(message);
             }

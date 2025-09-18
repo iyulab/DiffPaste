@@ -41,12 +41,12 @@ line4
 
 **Clipboard Diff:**
 ```
- line1
--line2
--line3
-+new_line2
-+new_line3
- line4
+  line1
+- line2
+- line3
++ new_line2
++ new_line3
+  line4
 ```
 
 **Expected Result After Applying Diff Paste:**
@@ -71,12 +71,12 @@ line4
 2. **Copy the Diff:**
    - Copy the following diff data to your clipboard:
      ```
-      line1
-     -line2
-     -line3
-     +new_line2
-     +new_line3
-      line4
+       line1
+     - line2
+     - line3
+     + new_line2
+     + new_line3
+       line4
      ```
 
 3. **Execute Diff Paste:**
